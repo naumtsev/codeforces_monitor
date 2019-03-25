@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <style>
+        .username{
+             font-size: 16px;
+             padding-left:10px;
+             padding-right:10px;
+             color:black;
+        }
+        .quest{
+             font-size: 16px;
+          padding:3px;
+             color:black;
+             width:60px;
+        }
+        .status{
+            height:32px;
+            font-size: 25px;
+            color: green;
+        }
+
+        .mybuttons1{
+          font-size: 16px;
+          padding-left:3px;
+          padding-right:3px;
+          color:black;
+          border: 1px solid black;
+          margin-top:5px;
+        }
+
+          .mybuttons2{
+            padding-left:3px;
+          padding-right:3px;
+          font-size: 16px;
+          color:black;
+          border: 1px solid black;
+          margin-left:5px;
+          }
+
+        </style>
+
+        <br/>
+        <br/>
+
+        <a  class = 'mybuttons1'>Update was {{last_update}} seconds ago </a>
+        <br/>
+        <br/>
+        {% if 'login' in session %}
+            <a href="/edittasks" class = 'mybuttons1'>Edit tasks </a>
+            <a href="/editusers" class = 'mybuttons2'>Edit users </a>
+            <a href="/editadmins" class = 'mybuttons2'>Edit admins </a>
+
+            <a href="/logout" class = 'mybuttons2'>Выйти из {{session['login']}} </a>
+            <br/>
+        {% else %}
+            <a href="/login" class = 'mybuttons1'>Войти в систему</a>
+            <br/>
+        {% endif %}
+
+
+        <br/>
+
+
+        {% for title, problems, attempts in TABLE %}
+
+         <div> <h4>{{title}} </h4>
+
+                 <table border="1">
+
+                     <tr>
+                            <th> <a class="username">  </a> </th>
+                              <th> <a class="quest"> SOLVED </a> </th>
+                            {% for name, number, alphaname in problems %}
+                                 <th><center> <div  class="quest"> <a href="https://codeforces.com/problemset/problem/{{number}}/{{alphaname}}" style="color:black;"> {{name}}</a> </div > </center></th>
+                            {% endfor %}
+                              <th></th>
+                     </tr>
+
+                {% for user, ok, cnt in attempts %}
+                      <tr>
+
+                     <th> <a class="username" href="https://codeforces.com/profile/{{user}}">{{user}} </a> </th>
+                             <th>  <center> <label  class="username"> {{cnt}} </label > </center></th>
+                        {% for i in ok %}
+                          {% if i == "+" %}
+                               <th>  <center> <label  class="status"> {{i}} </label > </center></th>
+                          {% else %}
+
+                               <th><center> <label  class="status">  </label > </center></th>
+
+
+                          {% endif %}
+                        {% endfor %}
+                     <th></th>
+                      </tr>
+                {% endfor %}
+
+                 </table>
+            </div>
+ <br/>
+<br/>
+
+        {% endfor %}
+
+
+{% endblock %}

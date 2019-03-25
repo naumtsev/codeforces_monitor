@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<style>
+  .mybuttons1{
+              margin-top:5px;
+          font-size: 16px;
+          padding-left:3px;
+          padding-right:3px;
+          color:black;
+          border: 1px solid black;
+
+        }
+
+          .mybuttons2{
+             margin-top:5px;
+          font-size: 16px;
+            padding-left:3px;
+          padding-right:3px;
+          color:black;
+          border: 1px solid black;
+          margin-left:5px;
+          }
+</style>
+
+    <br/>
+    <br/>
+
+         <a  class = 'mybuttons1'>Update was {{last_update}} seconds ago </a>        <br/>
+        <br/>
+        {% if 'login' in session %}
+            <a href="/edittasks" class = 'mybuttons1'>Edit tasks </a>
+            <a href="/editusers" class = 'mybuttons2'>Edit users </a>
+            <a href="/editadmins" class = 'mybuttons2'>Edit admins </a>
+            <a href="/logout" class = 'mybuttons2'>Выйти из {{session['login']}} </a>
+
+        {% endif %}
+
+        <br/>
+        <br/>
+
+
+
+    <div> {{nowtitle}}</div>
+    <form method="POST">
+        <p><textarea name="textfield" cols="100" rows="26">{{defaulttext}} </textarea></p>
+        <input type="submit">
+    </form>
+
+
+
+{% endblock%}

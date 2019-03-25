@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<style>
+.LOGIN{
+    margin-top:60px;
+    margin-left:40%;
+    padding:25px;
+    border: 1px solid black;
+    width:25%;
+}
+</style>
+
+
+  <form action="" method="post" novalidate class="LOGIN">
+
+ {{ form.hidden_tag() }}
+    <div class="BUFFER">
+        <h3> Авторизация</h3>
+
+        {% if status == 1 %}
+            <h6 style="color:red"> Пароль или логин введён неверно</h6>
+{% endif %}
+
+
+            {{ form.username.label }}<br>
+            {{ form.username }}<br>
+        <br/>
+            {{ form.password.label }}<br>
+            {{ form.password }}<br>
+
+        <br/>
+       {{ form.submit() }}
+
+        </div>
+</form>
+
+
+{% endblock%}
