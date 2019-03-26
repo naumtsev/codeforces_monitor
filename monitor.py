@@ -20,10 +20,6 @@ def get_attempts(handle):
     request = get(map_request).json()
     if request['status'] != 'OK':
         return attempts
-    if handle == 'AffirmativeActor':
-        print()
-        for i in request['result']:
-            print(i)
     for i in request['result']:
         attempt = i['problem']
         contestId = attempt['contestId']
