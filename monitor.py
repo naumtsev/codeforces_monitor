@@ -20,12 +20,16 @@ def get_attempts(handle):
     request = get(map_request).json()
     if request['status'] != 'OK':
         return attempts
-
+    if handle == 'AffirmativeActor':
+        print()
+        for i in request['result']:
+            print(i)
     for i in request['result']:
         attempt = i['problem']
         contestId = attempt['contestId']
         index = attempt['index']
-        attempts.append(str(contestId) + index)
+        if(i['verdict'] == 'OK'):
+            attempts.append(str(contestId) + index)
     return attempts
 
 def load_groupsofproblems():
@@ -33,13 +37,13 @@ def load_groupsofproblems():
     data = file.readlines()
     buffer = []
     sz = len(data)
+
     if(len(data) % 2 != 0):
         sz -= 1
     for i in range(0, sz, 2):
         title = data[i].strip()
         problems = data[i + 1].split()
         buffer.append((title, problems))
-
     file.close()
     return buffer
 
@@ -128,7 +132,6 @@ def mainpage():
     if(NOW_TIME - TIME_UPDATE >= 60):
         TIME_UPDATE = NOW_TIME
         update_problems()
-        print('UPDATE!')
     return render_template('index.html', TABLE=tables, session=session, last_update=int(NOW_TIME - TIME_UPDATE))
 
 @app.route('/update/1', methods=['GET', 'POST'])
@@ -209,9 +212,9 @@ def editusers():
         return render_template('editfile.html',session=session, nowtitle='Edit users',
                                defaulttext=data, last_update=max(0, int(NOW_TIME - TIME_UPDATE)))
     if request.method == 'POST':
-        text = request.form['textfield']
+        text = request.form['textfield'].split()
         file = open('static/users.txt', 'w', encoding='utf-8')
-        data = file.writelines(text.split('\n'))
+        data = file.write('\n'.join(text))
         file.close()
         return redirect('/update/2')
 
